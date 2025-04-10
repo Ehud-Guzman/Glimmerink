@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="quantum">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum Creations | GlimmerInk</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="icon" href="favicon.ico">
+</head>
+
+<body>
+
+  <body class="work-page">
+
+    <!-- Quantum Loader -->
+
+
+    <!-- Main Navigation -->
+    <header class="neo-nav" role="banner">
+      <div class="nav-container">
+        <div class="brand-header">
+
+        </div>
+        <span class="brand-name">GlimmerInk <em>Creations</em></span>
+      </div>
+
+      </div>
+      <nav class="nav-portal" role="navigation" aria-label="Main Navigation">
+        <a href="index.html" class="wormhole-link" aria-current="page">Home</a>
+        <a href="work.html" class="wormhole-link">Work</a>
+        <a href="about.html" class="wormhole-link">About Us</a>
+        <a href="contact.html" class="wormhole-link active-wormhole">Contact</a>
+        <button class="reality-toggle" aria-label="Toggle Theme">
+          <span class="dimension-1"></span>
+          <span class="dimension-2"></span>
+        </button>
+      </nav>
+      </div>
+    </header>
+
+
+    <!-- Main Content -->
+    <main class="quantum-main">
+      <section class="contact-area" x-data="{ sending: false, showInfo: false, slideIndex: 0 }">
+
+
+        <div class="glow-circle"></div>
+        <div class="contact-box">
+          <h1 class="big-title">Contact Hub</h1>
+          <form class="message-form"
+            @submit.prevent="sending = true; setTimeout(() => { sending = false; $refs.form.reset(); }, 1500)">
+            <div class="input-box">
+              <input type="text" id="name" required>
+              <label for="name">Your Name</label>
+              <div class="glow-effect"></div>
+            </div>
+            <div class="input-box">
+              <input type="email" id="email" required>
+              <label for="email">Your Email</label>
+              <div class="glow-effect"></div>
+            </div>
+            <div class="input-box">
+              <textarea id="message" required rows="5"></textarea>
+              <label for="message">Your Message</label>
+              <div class="glow-effect"></div>
+            </div>
+            <button type="submit" class="send-button" :disabled="sending" x-ref="form">
+              <span x-show="!sending">Send Message</span>
+              
+            </button>
+          </form>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="info-grid" x-show="showInfo" x-transition>
+          <div class="info-card">
+            <i class="fas fa-envelope card-icon"></i>
+            <h3>Email</h3>
+            <p><a href="mailto:nyamuehud@gmail.com" class="card-link">nyamuehud@gmail.com</a></p>
+          </div>
+          <div class="info-card">
+            <i class="fas fa-phone card-icon"></i>
+            <h3>Phone</h3>
+            <p><a href="tel:+254 746527253" class="card-link">+254 746527253</a></p>
+          </div>
+          <div class="info-card">
+            <i class="fas fa-map-marker-alt card-icon"></i>
+            <h3>Address</h3>
+            <p>Online<br>Shine City, SC 12345</p>
+          </div>
+          <div class="info-card">
+            <i class="fas fa-link card-icon"></i>
+            <h3>Social</h3>
+            <p><a href="https://twitter.com/glimmerink" class="card-link">Twitter</a> |
+              <a href="https://linkedin.com/company/glimmerink" class="card-link">LinkedIn</a>
+            </p>
+          </div>
+        </div>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="quantum-vortex">
+      <!-- Animated Particles Background -->
+      <div class="cosmic-particles">
+        <div class="particle" style="--x:15%;--y:20%;--d:2s"></div>
+        <div class="particle" style="--x:85%;--y:30%;--d:2.5s"></div>
+        <div class="particle" style="--x:45%;--y:65%;--d:1.8s"></div>
+        <!-- Add more particles as needed -->
+      </div>
+
+      <!-- Footer Content -->
+      <div class="reality-container">
+        <!-- Brand Section -->
+        <div class="quantum-brand">
+          <div class="holographic-core">
+            <svg class="quantum-logo" viewBox="0 0 100 100">
+              <path d="M50 5 L95 25 L95 75 L50 95 L5 75 L5 25 Z" class="quantum-path" />
+            </svg>
+          </div>
+          <div class="brand-essence">
+            <h3 class="neo-title">GlimmerInk</h3>
+            <p class="reality-statement1">Crafting Digital Realities</p>
+          </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="multiverse-gateways">
+          <div class="dimension-cluster">
+            <h4 class="gateway-title">Quantum Dimensions</h4>
+            <ul class="reality-links">
+              <li><a href="#" class="wormhole-link">Prime Reality</a></li>
+              <li><a href="#" class="wormhole-link">Chronal Archives</a></li>
+              <li><a href="#" class="wormhole-link">Nexus Portal</a></li>
+            </ul>
+          </div>
+
+          <div class="entanglement-node">
+            <h4 class="gateway-title">Entanglement Field</h4>
+            <ul class="reality-links">
+              <li><a href="#" class="wormhole-link">Pulse Network</a></li>
+              <li><a href="#" class="wormhole-link">Resonance Feed</a></li>
+              <li><a href="#" class="wormhole-link">Temporal Comms</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Centered Cosmic Signature -->
+        <div class="quantum-anchor">
+          <span class="reality-signature">
+            GlimmerInk Creations
+            <span class="signature-aura"></span>
+          </span>
+        </div>
+      </div>
+
+      <!-- Quantum Rift Effect -->
+      <div class="rift-overlay"></div>
+    </footer>
+
+
+
+    <script src="assets/js/script.js"></script>
+  </body>
+
+</html>

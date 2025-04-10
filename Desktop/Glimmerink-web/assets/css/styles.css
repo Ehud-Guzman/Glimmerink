@@ -1,0 +1,2923 @@
+/* ===== QUANTUM CORE SYSTEM ===== */
+:root {
+  /* Core Colors */
+  --quantum-dark: #0a0f1c;
+  --quantum-light: #e0e4f1;
+  --quantum-accent: #6791dd;
+  --quantum-highlight: #42e6a4;
+  --quantum-glow: rgba(103, 145, 221, 0.1);
+  --quantum-void: rgba(10, 15, 28, 0.95);
+
+  /* Typography */
+  --font-main: "Poppins", sans-serif;
+  --font-mono: "Space Mono", monospace;
+
+  /* Effects */
+  --neon-glow: 0 0 15px rgba(0, 240, 255, 0.7);
+  --pulse-glow: 0 0 30px rgba(66, 230, 164, 0.3);
+}
+
+/* ===== BASE RESETS ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+/* ===== FULL PAGE THEME ===== */
+[data-theme="dark"] {
+  --bg-primary: #0a0f1c;
+  --text-primary: #e0e4f1;
+  --accent-color: #6791dd;
+  --highlight-color: #42e6a4;
+  --card-bg: rgba(255, 255, 255, 0.03);
+}
+
+[data-theme="light"] {
+  --bg-primary: #f5f7ff;
+  --text-primary: #1a1a2e;
+  --accent-color: #3a7bd5;
+  --highlight-color: #00d2ff;
+  --card-bg: rgba(0, 0, 0, 0.03);
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background 0.6s ease, color 0.4s ease;
+}
+
+/* Testimonial image fix */
+.quantum-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top; /* Adjust if faces are cropped */
+  transition: filter 0.4s ease;
+}
+
+body {
+  font-family: var(--font-main);
+  background: var(--quantum-dark);
+  color: var(--quantum-light);
+  line-height: 1.6;
+  overflow-x: hidden;
+  position: relative;
+}
+
+body::after {
+  content: "GlimmerInk";
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  font-size: 1.2rem;
+  color: rgba(103, 145, 221, 0.1);
+  font-family: var(--font-mono);
+  transform: rotate(-15deg);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ===== CORE ANIMATIONS ===== */
+@keyframes quantum-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes quantum-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+@keyframes quantum-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes binary-fall {
+  from {
+    transform: translateY(-100vh);
+  }
+  to {
+    transform: translateY(100vh);
+  }
+}
+
+@keyframes ripple {
+  from {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+
+/* ===== LOADER SYSTEM ===== */
+.quantum-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--quantum-dark);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 1s ease, visibility 1s;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.quantum-loader::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--quantum-dark);
+  animation: barrier-fade 1s 3s forwards;
+}
+
+.quantum-core {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.core-particle {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: var(--quantum-highlight);
+  border-radius: 50%;
+  animation: quantum-orbit 3s linear infinite;
+  transform-origin: 60px 60px;
+}
+
+@keyframes quantum-orbit {
+  0% {
+    transform: rotate(0deg) translateX(50px) rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg) translateX(50px) rotate(-360deg);
+  }
+}
+
+.loading-text {
+  position: absolute;
+  bottom: -40px;
+  width: 100%;
+  text-align: center;
+  color: var(--quantum-accent);
+  font-family: var(--font-mono);
+}
+
+/* ===== NAVIGATION SYSTEM ===== */
+.neo-nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 1rem 2rem;
+  background: rgba(26, 26, 46, 0.95);
+  backdrop-filter: blur(12px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(103, 145, 221, 0.1);
+}
+
+.brand-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hologram-logo svg {
+  width: 50px;
+  height: 50px;
+  fill: none;
+  stroke: var(--quantum-accent);
+  stroke-width: 2;
+  animation: quantum-spin 20s linear infinite;
+}
+
+.brand-name {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  color: var(--quantum-accent);
+  position: relative;
+}
+
+.brand-name em {
+  font-style: normal;
+  color: var(--quantum-highlight);
+  margin-left: 0.5rem;
+  opacity: 0.8;
+}
+
+.nav-portal {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.wormhole-link {
+  color: var(--quantum-light);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.wormhole-link:hover {
+  color: var(--quantum-accent);
+  text-shadow: 0 0 8px currentColor;
+}
+
+.wormhole-link::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--quantum-accent),
+    var(--quantum-highlight)
+  );
+  transition: width 0.3s ease;
+}
+
+.wormhole-link:hover::after {
+  width: 100%;
+  animation: ripple 0.6s 2 alternate;
+}
+/* ===== ACTIVE NAV LINK STYLES ===== */
+.wormhole-link.active-wormhole {
+  color: var(--quantum-highlight) !important;
+  text-shadow: 0 0 10px var(--quantum-highlight);
+  position: relative;
+  text-shadow: 0 0 10px rgb(66, 230, 164, 0.7);
+}
+
+.wormhole-link.active-wormhole::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--quantum-highlight);
+  animation: link-pulse 2s infinite;
+  box-shadow: 0 0 15px var(--quantum-highlight);
+}
+
+@keyframes link-pulse {
+  0%,
+  100% {
+    opacity: 0.8;
+    transform: scaleX(0.95);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleX(1.1);
+  }
+}
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .nav-container {
+      padding: var(--spacing) 1rem; /* Reduce padding slightly */
+  }
+  .nav-portal {
+      gap: 1.5rem; /* Slightly smaller gap */
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-portal {
+      gap: 1rem;
+      overflow-x: auto; /* Allow horizontal scrolling */
+      white-space: nowrap; /* Prevent wrapping */
+      padding-right: 1rem; /* Space for scrollbar */
+      -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-portal {
+      gap: 0.75rem; /* Even smaller gap */
+  }
+}
+
+
+
+.reality-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.reality-toggle span {
+  width: 24px;
+  height: 2px;
+  background: var(--quantum-light);
+  transition: all 0.3s ease;
+}
+
+/* ===== HERO SECTION ===== */
+.quantum-hero {
+  padding: 8rem 1rem 4rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.main-title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  margin-bottom: 3rem;
+  background: linear-gradient(
+    45deg,
+    var(--quantum-accent),
+    var(--quantum-highlight)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 15px rgba(103, 145, 221, 0.4);
+  position: relative;
+  background-image: linear-gradient(rgb(0, 240, 255, 0.1) 0 0 / 100 2px);
+}
+
+.main-title::after {
+  content: "✦";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(1.5);
+  color: var(--quantum-highlight);
+  font-size: 0.7em;
+  animation: quantum-pulse 2s infinite;
+}
+
+.quantum-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  max-width: 500px;
+  margin: 0 auto 2rem;
+  perspective: 1000px;
+}
+
+.grid-item {
+  padding: 1.5rem;
+  border: 2px solid #2d3753;
+  border-radius: 8px;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.grid-item:hover {
+  transform: translateY(-8px) rotateX(5deg) rotateY(5deg);
+  box-shadow: var(--pulse-glow);
+}
+
+.color-swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  border: 2px solid transparent;
+  animation: color-pulse 4s infinite;
+}
+
+@keyframes color-pulse {
+  0%,
+  100% {
+    border-color: var(--quantum-highlight);
+  }
+  50% {
+    border-color: var(--quantum-accent);
+  }
+}
+
+.swatch {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid var(--quantum-highlight);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.swatch:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px currentColor;
+}
+.swatch-particle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 100;
+}
+.binary-code {
+  position: relative;
+  overflow: hidden;
+  background: rgba(103, 145, 221, 0.1);
+  font-family: var(--font-mono);
+}
+
+.binary-code::after {
+  content: attr(data-original);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.9);
+}
+
+.binary-code:hover::after {
+  animation: binary-scroll 5s forwards;
+}
+
+@keyframes binary-scroll {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+.science-term {
+  text-shadow: 0 0 15px rgba(66, 230, 164, 0.4);
+  position: relative;
+  background: rgba(66, 230, 164, 0.1);
+}
+
+.science-term::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid var(--quantum-highlight);
+  border-radius: 8px;
+  animation: quantum-glow 2s infinite;
+}
+
+.principle {
+  position: relative;
+  background: rgba(255, 255, 255, 0.05);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.synonym-cloud {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--quantum-dark);
+  border: 1px solid var(--quantum-highlight);
+  border-radius: 8px;
+  padding: 1rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  min-width: 150px;
+  z-index: 10;
+}
+
+.principle:hover .synonym-cloud {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(10px);
+}
+
+/* ===== GALLERY SECTION ===== */
+.quantum-gallery {
+  padding: 6rem 2rem;
+  background: linear-gradient(
+    175deg,
+    var(--quantum-dark) 0%,
+    rgba(15, 23, 42, 0.95) 100%
+  );
+}
+/* ===== ADVANCED HOVER EFFECT ===== */
+.quantum-card {
+  perspective: 1000px;
+}
+
+.temporal-overlay {
+  transform-origin: top;
+  transition: opacity 0.3s ease,
+    transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.quantum-card:hover .temporal-overlay {
+  opacity: 0;
+  transform: rotateX(60deg) translateY(-50%);
+}
+
+.quantum-details {
+  transform: translateY(100%);
+  backdrop-filter: blur(5px);
+  border-top: 1px solid var(--quantum-accent);
+}
+
+.quantum-card:hover .quantum-details {
+  transform: translateY(0);
+  opacity: 1;
+  animation: quantum-reveal 0.6s forwards;
+}
+.ceo-bio-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  height: 100%;
+}
+
+/* Philosophy Grid */
+.philosophy-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.philosophy-item {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+.quantum-icon {
+  color: var(--quantum-highlight);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  filter: drop-shadow(0 0 5px rgba(66, 230, 164, 0.2));
+}
+
+/* Timeline */
+.quantum-timeline {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin: 1.5rem 0;
+  padding: 0.5rem 0;
+}
+
+.timeline-node {
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--quantum-accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  position: relative;
+}
+
+.timeline-node.active {
+  background: var(--quantum-highlight);
+  border-color: transparent;
+  color: #0a0f1c;
+}
+
+/* Signature */
+.quantum-signature {
+  margin-top: auto;
+  position: relative;
+  padding: 1rem;
+  border-top: 1px solid rgba(66, 230, 164, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.signature-glow {
+  width: 6px;
+  height: 6px;
+  background: var(--quantum-highlight);
+  border-radius: 50%;
+  filter: blur(2px);
+}
+
+/* Hover Effects */
+.philosophy-item {
+  transition: transform 0.3s ease;
+}
+
+.philosophy-item:hover {
+  transform: translateY(-3px);
+}
+
+.timeline-node {
+  transition: all 0.3s ease;
+}
+
+.timeline-node:hover {
+  transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+  .philosophy-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .quantum-timeline {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
+
+@keyframes quantum-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hologrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.quantum-card {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  border: 1px solid rgba(103, 145, 221, 0.2);
+}
+
+.quantum-card:hover {
+  transform: translateY(-0.75rem);
+  box-shadow: 0 0 40px rgba(66, 230, 164, 0.15);
+}
+
+.hologram-wrapper {
+  position: relative;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+}
+
+.quantum-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.quantum-card:hover .quantum-image {
+  transform: scale(1.05);
+}
+
+.temporal-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2rem;
+  background: linear-gradient(180deg, transparent 0%, var(--quantum-void) 70%);
+  color: var(--quantum-light);
+}
+
+.quantum-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(66, 230, 164, 0.15);
+  border-radius: 2rem;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.quantum-pulse {
+  width: 10px;
+  height: 10px;
+  background: var(--quantum-highlight);
+  border-radius: 50%;
+  animation: quantum-pulse 1.5s infinite;
+}
+
+.quantum-details {
+  padding: 1.5rem;
+  border-top: 1px solid rgba(103, 145, 221, 0.1);
+}
+
+/* ===== TESTIMONIALS ===== */
+.quantum-echoes {
+  padding: 6rem 2rem;
+  background: radial-gradient(
+    ellipse at 50% 0%,
+    rgba(103, 145, 221, 0.05) 0%,
+    var(--quantum-dark) 70%
+  );
+}
+
+.reality-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2.5rem;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.quantum-testimonial {
+  position: relative;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px);
+  transition: all 0.4s ease;
+  border: 1px solid rgba(103, 145, 221, 0.15);
+}
+
+.quantum-testimonial:hover {
+  transform: translateY(-0.75rem);
+  box-shadow: 0 0 40px rgba(66, 230, 164, 0.15);
+}
+
+.hologram-wrapper {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.quantum-avatar {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.avatar-glow {
+  position: absolute;
+  inset: -2px;
+  background: conic-gradient(
+    var(--quantum-accent),
+    var(--quantum-highlight),
+    var(--quantum-accent)
+  );
+  border-radius: 50%;
+  animation: quantum-spin 8s linear infinite;
+  filter: blur(12px);
+  opacity: 0.4;
+}
+
+.quantum-quote {
+  position: relative;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: rgba(224, 228, 241, 0.9);
+  margin-bottom: 1.5rem;
+}
+
+.quote-symbol {
+  width: 32px;
+  height: 32px;
+  fill: var(--quantum-accent);
+  opacity: 0.3;
+  margin-bottom: 0.5rem;
+}
+
+.client-signature {
+  border-top: 1px solid rgba(103, 145, 221, 0.1);
+  padding-top: 1.5rem;
+}
+
+.client-name {
+  color: var(--quantum-accent);
+  margin-bottom: 0.25rem;
+  font-size: 1.1rem;
+}
+
+.reality-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(66, 230, 164, 0.08);
+  border-radius: 2rem;
+  font-size: 0.85rem;
+}
+/* ===== EXPLORE THE VOID BUTTON ===== */
+.void-cta {
+  position: relative;
+  background: transparent;
+  border: none;
+  color: var(--quantum-accent);
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  padding: 1.2rem 2.5rem;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  z-index: 1;
+  overflow: hidden;
+  font-family: var(--font-mono);
+}
+
+/* Neon Glow Effect */
+.void-cta::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(103, 145, 221, 0.2),
+    transparent
+  );
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+  z-index: -1;
+}
+
+/* Underline Animation */
+.cta-underline {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--quantum-highlight),
+    transparent
+  );
+  transition: all 0.4s ease;
+}
+
+/* Hover Effects */
+.void-cta:hover {
+  color: var(--quantum-highlight);
+  text-shadow: 0 0 10px rgba(66, 230, 164, 0.7);
+}
+
+.void-cta:hover::before {
+  transform: translateX(100%);
+}
+
+.void-cta:hover .cta-underline {
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--quantum-accent),
+    var(--quantum-highlight),
+    transparent
+  );
+  box-shadow: 0 0 15px var(--quantum-highlight);
+}
+
+/* Active/Pressed State */
+.void-cta:active {
+  transform: translateY(2px);
+}
+
+/* Pulsing Glow Animation */
+@keyframes void-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 10px rgba(103, 145, 221, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(66, 230, 164, 0.8);
+  }
+}
+
+.void-cta:hover .cta-underline {
+  animation: void-pulse 2s infinite;
+}
+
+/* ===== CONTACT FORM ===== */
+.quantum-contact {
+  padding: 6rem 2rem;
+  background: linear-gradient(
+    185deg,
+    var(--quantum-dark) 0%,
+    rgba(10, 15, 28, 0.98) 100%
+  );
+}
+
+.wormhole-form {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.reality-bridge {
+  display: grid;
+  gap: 2rem;
+  padding: 3rem;
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 1.5rem;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(103, 145, 221, 0.2);
+}
+
+.quantum-field {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.quantum-field input,
+.quantum-field textarea {
+  width: 100%;
+  padding: 1.2rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(103, 145, 221, 0.3);
+  color: var(--quantum-light);
+  border-radius: 0.5rem;
+  transition: all 0.4s ease;
+}
+
+.quantum-field label {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  padding: 0 0.5rem;
+  color: rgba(224, 228, 241, 0.6);
+  pointer-events: none;
+  transition: all 0.3s ease;
+  background: var(--quantum-dark);
+  transform-origin: left center;
+}
+
+.quantum-field input:focus ~ label,
+.quantum-field textarea:focus ~ label,
+.quantum-field input:valid ~ label,
+.quantum-field textarea:valid ~ label {
+  transform: translateY(-1.8rem) scale(0.9);
+  color: var(--quantum-accent);
+}
+
+.field-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 0.5rem;
+  z-index: -1;
+  opacity: 0;
+  background: radial-gradient(
+    400px circle at var(--x) var(--y),
+    rgba(66, 230, 164, 0.1),
+    transparent 40%
+  );
+  transition: opacity 0.3s ease;
+}
+
+.quantum-field:hover .field-glow {
+  opacity: 0.3;
+}
+
+.quantum-transmit {
+  background: linear-gradient(
+    45deg,
+    var(--quantum-accent),
+    var(--quantum-highlight)
+  );
+  color: var(--quantum-dark);
+  padding: 1.2rem 2.5rem;
+  border: none;
+  border-radius: 2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.quantum-transmit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(66, 230, 164, 0.3);
+}
+
+.pulse-core {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background: var(--quantum-dark);
+  border-radius: 50%;
+  margin-right: 0.8rem;
+  animation: quantum-pulse 1.5s infinite;
+}
+
+.quantum-confirmation {
+  position: absolute;
+  inset: 0;
+  display: none;
+  place-items: center;
+  text-align: center;
+  background: var(--quantum-void);
+  border-radius: 1.5rem;
+}
+
+.reality-sphere {
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(
+    circle at center,
+    var(--quantum-highlight) 0%,
+    transparent 70%
+  );
+  animation: quantum-float 4s ease-in-out infinite;
+}
+
+/* ===== FOOTER ===== */
+.quantum-vortex {
+  position: relative;
+  background: #080d17;
+  color: white;
+  padding: 40px 20px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.cosmic-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #0ff;
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: floatParticles var(--d) infinite alternate ease-in-out;
+  transform: translate(var(--x), var(--y));
+}
+
+@keyframes floatParticles {
+  0% {
+    transform: translate(var(--x), var(--y)) scale(1);
+  }
+  100% {
+    transform: translate(calc(var(--x) + 10px), calc(var(--y) - 10px))
+      scale(1.5);
+  }
+}
+
+.reality-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  position: relative;
+  z-index: 1;
+}
+
+.quantum-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.holographic-core {
+  width: 60px;
+  height: 60px;
+}
+
+.quantum-logo {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: #0ff;
+  stroke-width: 2;
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: drawLogo 2s linear forwards;
+}
+
+@keyframes drawLogo {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.neo-title {
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #0ff;
+}
+
+.reality-statement {
+  font-size: 14px;
+  color: #a0a0a0;
+}
+
+.multiverse-gateways {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.dimension-cluster,
+.entanglement-node {
+  text-align: left;
+}
+
+.gateway-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #0ff;
+}
+
+.reality-links {
+  list-style: none;
+  padding: 0;
+}
+
+.wormhole-link {
+  text-decoration: none;
+  color: white;
+  transition: color 0.3s;
+}
+
+.wormhole-link:hover {
+  color: #0ff;
+  text-shadow: 0 0 10px #0ff;
+}
+
+.quantum-anchor {
+  position: relative;
+  font-size: 14px;
+  color: #a0a0a0;
+}
+
+.signature-aura {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #0ff, transparent);
+  margin-top: 5px;
+}
+
+.rift-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 80%;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #0ff, transparent);
+  transform: translateX(-50%);
+  animation: pulseGlow 2s infinite alternate ease-in-out;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar {
+  width: 8px;
+  background: var(--quantum-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--quantum-accent), var(--quantum-highlight));
+  border-radius: 4px;
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+
+@media (max-width: 768px) {
+  .nav-portal {
+    gap: 1rem;
+  }
+
+  .hologram-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .quantum-avatar {
+    margin: 0 auto 1.5rem;
+  }
+
+  .reality-bridge {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .quantum-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .multiverse-gateways {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+/* ===== HEADER STYLES ===== */
+.neo-title-wrapper {
+  text-align: center;
+  max-width: 1200px;
+  margin: 0 auto 4rem;
+  padding: 0 2rem;
+}
+
+.neo-title {
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(
+    45deg,
+    var(--quantum-accent) 30%,
+    var(--quantum-highlight) 70%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 25px rgba(103, 145, 221, 0.3);
+}
+
+.title-underline {
+  width: 120px;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--quantum-accent) 50%,
+    transparent 100%
+  );
+  margin: 0 auto;
+  animation: title-glow 3s ease-in-out infinite;
+}
+
+@keyframes title-glow {
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: scaleX(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleX(1.2);
+  }
+}
+
+/* ===== BINARY SCROLL EFFECT (FULL) ===== */
+.binary-code {
+  position: relative;
+  font-family: "Courier New", monospace;
+  font-size: 1.2rem;
+  letter-spacing: 0.1em;
+  background: rgba(103, 145, 221, 0.1);
+  overflow: hidden;
+}
+
+.binary-code::before {
+  content: attr(data-original);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.9);
+  transition: all 0.8s ease;
+}
+
+.binary-code:hover::before {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.binary-stream {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.binary-code:hover .binary-stream {
+  opacity: 1;
+  animation: binary-fall 15s linear infinite;
+}
+
+.binary-particle {
+  color: var(--quantum-accent);
+  opacity: 0.5;
+  margin: 0.2rem 0;
+}
+
+@keyframes binary-fall {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+/* ===== TEXT ALIGNMENTS ===== */
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+.text-justify {
+  text-align: justify;
+}
+
+/* ===== HEADER HIERARCHY ===== */
+h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  margin-bottom: 2rem;
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  margin-bottom: 1.5rem;
+  color: var(--quantum-accent);
+}
+
+h3 {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  margin-bottom: 1.2rem;
+  color: var(--quantum-highlight);
+}
+
+/* ===== CARD HEADERS ===== */
+.temporal-overlay h3 {
+  font-size: 1.5rem;
+  color: white;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* ===== TESTIMONIAL HEADERS ===== */
+.client-name {
+  font-size: 1.1rem;
+  color: var(--quantum-accent);
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+/* ===== FORM HEADERS ===== */
+.wormhole-form h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  background: linear-gradient(
+    45deg,
+    var(--quantum-accent),
+    var(--quantum-highlight)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* ===== FOOTER HEADERS ===== */
+.gateway-title {
+  font-size: 1.2rem;
+  color: var(--quantum-highlight);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.quantum-work-hero {
+  position: relative;
+  min-height: 70vh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 4rem 2rem;
+  background: radial-gradient(
+    ellipse at 50% 30%,
+    rgba(103, 145, 221, 0.1) 0%,
+    var(--quantum-dark) 70%
+  );
+}
+
+.quantum-core-pulse {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(
+    circle,
+    rgba(66, 230, 164, 0.1) 0%,
+    transparent 60%
+  );
+  animation: quantum-pulse 4s infinite;
+  filter: blur(40px);
+}
+
+.work-hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.quantum-glitch {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  position: relative;
+  color: var(--quantum-highlight);
+}
+
+.quantum-glitch::before {
+  content: attr(data-text);
+  position: absolute;
+  left: -2px;
+  text-shadow: 2px 0 rgba(103, 145, 221, 0.7);
+  animation: glitch-1 2s infinite;
+}
+
+.quantum-divider {
+  height: 2px;
+  background: rgba(103, 145, 221, 0.3);
+  max-width: 400px;
+  margin: 2rem auto;
+  position: relative;
+}
+
+.particle-trail {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--quantum-highlight),
+    transparent
+  );
+  animation: trail-flow 3s linear infinite;
+}
+
+.work-stats-grid {
+  display: flex;
+  gap: 4rem;
+  justify-content: center;
+  margin-top: 3rem;
+}
+
+.stat-item {
+  text-align: center;
+  perspective: 1000px;
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-family: var(--font-mono);
+  color: var(--quantum-accent);
+  transition: transform 0.4s ease;
+}
+
+.stat-item:hover .stat-value {
+  transform: rotateX(360deg);
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 0.5rem;
+  opacity: 0.8;
+}
+
+@keyframes trail-flow {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes glitch-1 {
+  0% {
+    clip-path: inset(20% 0 30% 0);
+  }
+  100% {
+    clip-path: inset(10% 0 40% 0);
+  }
+}
+.reality-prototypes {
+  padding: 6rem 2rem;
+  background: linear-gradient(
+    185deg,
+    var(--quantum-dark) 0%,
+    rgba(10, 15, 28, 0.95) 100%
+  );
+}
+
+.prototype-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 4rem auto;
+}
+
+.proto-card {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.proto-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 40px rgba(66, 230, 164, 0.1);
+}
+
+.proto-preview {
+  position: relative;
+  height: 250px;
+  background: rgba(103, 145, 221, 0.05);
+}
+
+.hologram-display {
+  position: absolute;
+  inset: 20px;
+  perspective: 1000px;
+}
+
+.quantum-cube {
+  position: absolute;
+  width: 60%;
+  height: 60%;
+  margin: auto;
+  inset: 0;
+  transform-style: preserve-3d;
+  animation: cube-rotate 20s infinite linear;
+}
+
+@keyframes cube-rotate {
+  0% {
+    transform: rotateX(0) rotateY(0);
+  }
+  100% {
+    transform: rotateX(360deg) rotateY(360deg);
+  }
+}
+
+.neural-web {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle,
+    transparent 50%,
+    rgba(66, 230, 164, 0.1) 100%
+  );
+}
+
+.pulse-wave {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: var(--quantum-highlight);
+  filter: blur(1px);
+  animation: pulse-scan 3s infinite;
+}
+
+@keyframes pulse-scan {
+  0% {
+    top: 0;
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+.proto-status {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  padding: 0.5rem 1rem;
+  background: rgba(66, 230, 164, 0.1);
+  border-radius: 2rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.proto-details {
+  padding: 2rem;
+}
+
+.proto-details h3 {
+  color: var(--quantum-accent);
+  margin-bottom: 1rem;
+}
+
+.proto-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  font-family: var(--font-mono);
+  opacity: 0.8;
+}
+
+.tech-stack {
+  color: var(--quantum-highlight);
+}
+
+.version {
+  color: rgba(224, 228, 241, 0.6);
+}
+
+.quantum-divider {
+  max-width: 800px;
+  margin: 4rem auto;
+}
+/* Fixed CTA Alignment */
+.void-cta-container {
+  text-align: center;
+  margin: 3rem 0;
+  padding: 2rem 0;
+}
+
+.void-cta {
+  display: inline-flex;
+  position: relative;
+  margin: 0 auto;
+  padding: 1.25rem 3rem;
+}
+
+.cta-underline {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Prototype Card Enhancements */
+.proto-card {
+  position: relative;
+  border: 1px solid rgba(103, 145, 221, 0.15);
+}
+
+.quantum-core-preview {
+  height: 200px;
+  position: relative;
+  background: radial-gradient(
+    circle at center,
+    rgba(66, 230, 164, 0.05) 0%,
+    transparent 60%
+  );
+}
+
+.core-rotation {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: conic-gradient(
+    var(--quantum-accent),
+    var(--quantum-highlight),
+    transparent 70%
+  );
+  border-radius: 50%;
+  animation: quantum-spin 8s linear infinite;
+}
+
+.tech-stack {
+  display: flex;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.tech-tag {
+  padding: 0.5rem 1rem;
+  background: rgba(103, 145, 221, 0.1);
+  border-radius: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.tech-tag:hover {
+  background: rgba(66, 230, 164, 0.15);
+  transform: translateY(-2px);
+}
+
+.version-badge {
+  font-family: var(--font-mono);
+  color: var(--quantum-highlight);
+  padding: 0.25rem 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 1rem;
+}
+
+.dependency-grid {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.dependency-badge {
+  font-size: 0.8rem;
+  padding: 0.25rem 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 1rem;
+}
+
+.progress-bar {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.05);
+  margin-top: 0.5rem;
+  border-radius: 2px;
+}
+
+.quantum-progress {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--quantum-accent),
+    var(--quantum-highlight)
+  );
+  border-radius: 2px;
+  transition: width 0.5s ease;
+}
+quantum-works-grid {
+  padding: 6rem 2rem;
+  background: linear-gradient(
+    185deg,
+    var(--quantum-dark) 0%,
+    rgba(10, 15, 28, 0.95) 100%
+  );
+}
+
+.work-item {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.work-item:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 30px rgba(66, 230, 164, 0.1);
+}
+
+.quantum-thumbnail {
+  height: 250px;
+  background: linear-gradient(
+      45deg,
+      var(--quantum-accent),
+      var(--quantum-highlight)
+    ),
+    var(--bg);
+  background-blend-mode: multiply;
+  background-size: cover;
+  position: relative;
+}
+
+.work-status {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.5rem 1rem;
+  background: rgba(66, 230, 164, 0.15);
+  border-radius: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.work-details {
+  padding: 1.5rem;
+}
+
+.work-meta {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem 0;
+  font-family: var(--font-mono);
+  opacity: 0.8;
+}
+
+.reality-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.stat {
+  text-align: center;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0.5rem;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  color: var(--quantum-highlight);
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.quantum-filter {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.filter-btn {
+  background: none;
+  border: 1px solid rgba(103, 145, 221, 0.2);
+  color: var(--quantum-light);
+  padding: 0.5rem 1.5rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-btn.active {
+  background: var(--quantum-accent);
+  border-color: transparent;
+}
+/* Quantum About Core */
+.quantum-about {
+  --hologram-glow: hsl(171, 100%, 50%);
+  --quantum-depth: 1000px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.quantum-main {
+  flex: 1;
+  padding: 4rem 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.reality-fabric {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4rem;
+  margin-bottom: 8rem;
+}
+
+@media (min-width: 768px) {
+  .reality-fabric {
+    grid-template-columns: 40% 60%;
+    align-items: center;
+  }
+}
+
+.hologram-chamber {
+  position: relative;
+  perspective: var(--quantum-depth);
+}
+
+.quantum-portal {
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+  transform-style: preserve-3d;
+}
+
+.founder-waveform {
+  width: 100%;
+  height: auto;
+  filter: grayscale(100%) contrast(120%);
+  position: relative;
+  z-index: 1;
+}
+
+.particle-emitter {
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(var(--hologram-glow), transparent 70%);
+  mix-blend-mode: screen;
+  animation: quantum-spin 20s linear infinite;
+}
+
+.consciousness-stream {
+  position: relative;
+  z-index: 2;
+}
+
+.reality-title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  margin-bottom: 2rem;
+  text-shadow: 0 0 30px var(--hologram-glow);
+}
+
+.quantum-stats {
+  margin-top: 2rem;
+}
+
+.reality-probability {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  position: relative;
+}
+
+.probability-bar {
+  position: absolute;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--quantum-accent),
+    var(--quantum-highlight)
+  );
+  width: calc(var(--stability) * 100%);
+  transition: width 0.6s ease;
+}
+
+/* Chronal Strata */
+.chronal-strata {
+  margin-top: 8rem;
+}
+
+.achievement-grid {
+  display: grid;
+  gap: 4rem;
+  position: relative;
+}
+
+.quantum-achievement {
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 1rem;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.temporal-marker {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: var(--hologram-glow);
+  border-radius: 50%;
+  left: -2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  filter: blur(2px);
+}
+
+@keyframes quantum-spin {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* Clean Quantum Layout */
+.core-profile {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4rem;
+  padding: 4rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@media (min-width: 992px) {
+  .core-profile {
+    grid-template-columns: 40% 60%;
+    align-items: start;
+    padding-top: 8rem;
+  }
+}
+
+.quantum-essence {
+  position: relative;
+  padding: 2rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.founder-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.5rem;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 0 40px rgba(66, 230, 164, 0.1);
+  object-position: center 25%;
+}
+
+.essence-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 0%,
+    rgba(103, 145, 221, 0.1) 0%,
+    transparent 60%
+  );
+  z-index: 0;
+}
+
+.reality-statement {
+  padding: 2rem;
+  position: relative;
+}
+
+.founder-title {
+  font-size: clamp(4rem, 3.5vw, 3.5rem);
+  line-height: 1.2;
+  margin-bottom: 2rem;
+}
+
+.quantum-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.quantum-underline::after {
+  content: "";
+  position: absolute;
+  bottom: -0.5rem;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--quantum-accent);
+  transform: scaleX(0.8);
+}
+
+.consciousness-flow {
+  display: grid;
+  gap: 3rem;
+}
+
+.founder-bio {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: rgba(224, 228, 241, 0.9);
+  max-width: 65ch;
+}
+
+.quantum-term {
+  color: var(--quantum-highlight);
+  cursor: help;
+  border-bottom: 1px dotted currentColor;
+}
+
+.principle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.reality-principle {
+  padding: 2rem;
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 0.5rem;
+  position: relative;
+}
+
+.principle-node {
+  width: 20px;
+  height: 20px;
+  background: var(--quantum-accent);
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  filter: blur(1px);
+}
+/* Content Section Styling */
+
+.founder-title {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  color: var(--quantum-highlight);
+  margin-bottom: 3rem;
+  position: relative;
+  margin: 0;
+  padding-left: 0;
+}
+
+.quantum-underline::after {
+  content: "";
+  position: absolute;
+  bottom: -0.5rem;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--quantum-accent),
+    var(--quantum-highlight)
+  );
+  transform: scaleX(0.8);
+}
+
+.founder-bio {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: rgba(224, 228, 241, 0.9);
+  max-width: 65ch;
+  margin-bottom: 3rem;
+  padding: 1.5rem;
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(66, 230, 164, 0.1);
+}
+
+.quantum-principle {
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 1rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s ease;
+}
+
+.quantum-principle:hover {
+  transform: translateY(-5px);
+}
+
+.principle-glow {
+  position: absolute;
+  top: -50px;
+  left: -50px;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(
+    circle,
+    var(--quantum-highlight),
+    transparent 70%
+  );
+  filter: blur(30px);
+  opacity: 0.3;
+}
+
+.principle-metric {
+  font-family: var(--font-mono);
+  color: var(--quantum-highlight);
+  margin-top: 1.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(66, 230, 164, 0.1);
+  border-radius: 2rem;
+  display: inline-block;
+}
+
+@media (max-width: 768px) {
+  .reality-statement {
+    padding: 1rem;
+  }
+
+  .founder-bio {
+    padding: 1rem;
+  }
+
+  .principle-grid {
+    grid-template-columns: 2fr;
+  }
+}
+
+.reality-statement {
+  position: relative;
+  padding: 4rem 2rem;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(15, 23, 42, 0.8) 0%,
+    rgba(9, 14, 26, 0.9) 100%
+  );
+  border-bottom: 1px solid rgba(66, 230, 164, 0.1);
+}
+
+.quantum-nexus {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.founder-title1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  color: var(--quantum-highlight);
+  margin-bottom: 3rem;
+  text-align: center;
+  line-height: 1.2;
+  position: relative;
+  padding: 2rem 0;
+  margin: 0;
+}
+.ceo-description {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: rgba(224, 228, 241, 0.9);
+  margin: 1.5rem 0;
+  position: relative;
+  z-index: 2;
+}
+
+.expertise {
+  display: inline-block;
+  margin-top: 1rem;
+  padding-left: 1.5rem;
+  border-left: 2px solid var(--quantum-highlight);
+  color: var(--quantum-highlight);
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  filter: drop-shadow(0 0 5px rgba(66, 230, 164, 0.2));
+  align-items: center;
+}
+
+.expertise br {
+  display: block;
+  margin: 0.6rem 0;
+}
+
+.principle-metric {
+  border: 1px solid rgba(66, 230, 164, 0.3);
+  padding: 0.8rem 1.5rem;
+  border-radius: 2rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  margin-top: 2rem;
+}
+
+.principle-metric::before {
+  content: "▲";
+  color: var(--quantum-highlight);
+  filter: drop-shadow(0 0 5px rgba(66, 230, 164, 0.3));
+}
+
+.quantum-underline::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--quantum-accent) 50%,
+    transparent
+  );
+  filter: drop-shadow(0 0 8px var(--quantum-highlight));
+}
+
+.principles-subtitle {
+  display: block;
+  font-size: 0.6em;
+  color: var(--quantum-accent);
+  font-family: var(--font-mono);
+  letter-spacing: 0.1em;
+  margin-top: 1rem;
+  opacity: 0.8;
+  text-shadow: 0 0 15px rgba(66, 230, 164, 0.3);
+}
+
+.principle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2.5rem;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+/* Background Effects */
+.reality-statement::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('data:image/svg+xml,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.005" numOctaves="3"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.3"/></svg>');
+  opacity: 0.1;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .reality-statement {
+    padding: 3rem 1rem;
+  }
+
+  .founder-title {
+    margin-bottom: 2rem;
+    padding: 0;
+  }
+
+  .principle-grid {
+    margin-top: 2rem;
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .founder-title {
+    padding: 3rem 0;
+  }
+
+  .quantum-underline::after {
+    width: 40%;
+  }
+}
+/* Compact Styling */
+.quantum-essence {
+  padding: 3rem 0;
+  border-top: 1px solid rgba(66, 230, 164, 0.1);
+}
+
+.essence-title {
+  text-align: center;
+  font-size: 1.8rem;
+  color: var(--quantum-highlight);
+  margin-bottom: 2rem;
+}
+
+.essence-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.essence-item {
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 0.5rem;
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.essence-item h3 {
+  color: var(--quantum-highlight);
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+}
+
+.essence-item p {
+  color: rgba(224, 228, 241, 0.8);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.quantum-marker {
+  color: var(--quantum-accent);
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .essence-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .essence-item {
+    padding: 1rem;
+  }
+}
+/* Compact Styling */
+.ceo-compact {
+  grid-template-columns: 1fr 1.5fr; /* Bio takes more width */
+  gap: 1.5rem;
+  margin: 2rem auto;
+}
+
+.ceo-compact .quantum-principle {
+  min-height: 300px; /* Reduced from 400px */
+  padding: 1.5rem;
+}
+
+.ceo-profile .quantum-profile-info {
+  padding: 1.5rem;
+  background: linear-gradient(
+    0deg,
+    rgba(10, 15, 28, 0.95) 40%,
+    transparent 100%
+  );
+}
+
+.founder-name {
+  font-size: 2rem;
+  margin-bottom: 0.3rem;
+}
+
+.founder-title {
+  font-size: 2.9rem;
+}
+
+.ceo-bio-content h3 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.ceo-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Remove Glow Effects for Minimalism */
+.ceo-compact .principle-glow {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .ceo-compact {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .ceo-compact .quantum-principle {
+    min-height: 250px;
+    padding: 1rem;
+  }
+}
+.title-glow {
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--quantum-highlight),
+    transparent
+  );
+  filter: blur(15px);
+  opacity: 0.3;
+}
+
+/* Design Alchemy Effects */
+.quantum-essence {
+  position: relative;
+  overflow: hidden;
+}
+
+.alchemy-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--quantum-highlight);
+  border-radius: 50%;
+  filter: blur(1px);
+  animation: particle-float 6s infinite linear;
+  opacity: 0.15;
+}
+
+@keyframes particle-float {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-20px) scale(1.3);
+  }
+}
+
+.essence-item {
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+  border: 1px solid transparent;
+}
+
+.essence-item:hover {
+  transform: translateY(-3px);
+  border-color: rgba(66, 230, 164, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.essence-item::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    var(--quantum-highlight) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.essence-item:hover::after {
+  opacity: 0.1;
+}
+
+.quantum-marker {
+  filter: drop-shadow(0 0 5px var(--quantum-highlight));
+}
+/* Team Photon Grid */
+.team-photon-grid {
+  display: flex;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem auto;
+}
+
+.photon-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.photon-info {
+  padding: 1.5rem;
+  background: rgba(15, 23, 42, 0.8);
+}
+
+.photon-role {
+  color: var(--quantum-accent);
+  font-family: var(--font-mono);
+  margin: 0.5rem 0;
+}
+
+/* FAQ Grid */
+.faq-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.faq-card {
+  padding: 2rem;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.faq-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.faq-answer {
+  height: 0;
+  opacity: 0;
+  margin: 0;
+  transition: all 0.3s ease;
+}
+
+.faq-card:hover .faq-answer {
+  height: auto;
+  opacity: 1;
+  margin-top: 1rem;
+}
+
+/* CTA Portal */
+.cta-portal {
+  margin: 4rem 0;
+  position: relative;
+}
+
+.entanglement-interface {
+  text-align: center;
+  padding: 4rem 2rem;
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.quantum-trigger {
+  background: var(--quantum-highlight);
+  border: none;
+  padding: 1rem 2.5rem;
+  border-radius: 2rem;
+  font-family: var(--font-mono);
+  color: #0a0f1c;
+  position: relative;
+  overflow: hidden;
+  transition: 0.3s ease;
+  margin-top: 1.5rem;
+}
+
+.trigger-pulse {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2rem;
+  animation: trigger-pulse 2s infinite;
+}
+
+@keyframes trigger-pulse {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+@media (max-width: 768px) {
+  .faq-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .photon-image {
+    height: 250px;
+  }
+
+  .entanglement-interface {
+    padding: 2rem 1rem;
+  }
+}
+/* Contact Page Styles */
+.contact-area {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #0f172a, #1e293b);
+  padding: 8rem 2rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.glow-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.2), transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: spin 20s linear infinite;
+}
+
+.contact-box {
+  max-width: 700px;
+  margin: 0 auto;
+  background: rgba(15, 23, 42, 0.9);
+  padding: 2rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  box-shadow: 0 0 30px rgba(34, 197, 94, 0.2);
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+.big-title {
+  font-size: 2.5rem;
+  text-align: center;
+  color: #22c55e;
+  text-shadow: 0 0 15px rgba(34, 197, 94, 0.5);
+  margin-bottom: 1.5rem;
+}
+
+.message-form {
+  display: grid;
+  gap: 1rem;
+  padding: 0 1rem;
+}
+
+.input-box {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input-box input,
+.input-box textarea {
+  width: 100%;
+  padding: 0.8rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 0.5rem;
+  color: #e0e0e0;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.input-box input:focus,
+.input-box textarea:focus {
+  border-color: #22c55e;
+  outline: none;
+}
+
+.input-box label {
+  position: absolute;
+  top: 0.8rem;
+  left: 0.8rem;
+  color: #a0a0a0;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  font-size: 1rem;
+}
+
+.input-box input:focus ~ label,
+.input-box textarea:focus ~ label,
+.input-box input:valid ~ label,
+.input-box textarea:valid ~ label {
+  top: -0.5rem;
+  left: 0.8rem;
+  font-size: 0.7rem;
+  color: #22c55e;
+  background: #0f172a;
+  padding: 0 0.2rem;
+}
+
+.glow-effect {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.1), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  border-radius: 0.5rem;
+}
+
+.input-box:hover .glow-effect {
+  opacity: 0.5;
+}
+
+.send-button {
+  background: #22c55e;
+  color: #0f172a;
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.send-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
+}
+
+.send-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  max-width: 1000px;
+  margin: 3rem auto;
+  padding: 0 2rem;
+}
+
+.info-card {
+  background: rgba(15, 23, 42, 0.8);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  text-align: center;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  transition: all 0.3s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
+}
+
+.card-icon {
+  font-size: 1.8rem;
+  color: #22c55e;
+  margin-bottom: 1rem;
+  animation: pulse 2s infinite;
+}
+
+.card-link {
+  color: #22c55e;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  word-wrap: break-word;
+}
+
+.card-link:hover {
+  color: #86efac;
+  text-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+}
+
+.toggle-info {
+  display: block;
+  margin: 2rem auto;
+  padding: 0.8rem 2rem;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid #22c55e;
+  color: #e0e0e0;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.toggle-info:hover {
+  background: rgba(34, 197, 94, 0.2);
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
+}
+
+@keyframes spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
